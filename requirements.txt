@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+httpx
+langgraph
+langchain-core
+streamlit
+pypinyin
+python-dotenv
+neo4j

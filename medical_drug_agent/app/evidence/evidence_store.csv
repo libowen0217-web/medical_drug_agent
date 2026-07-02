@@ -1,0 +1,11 @@
+evidence_id,topic,drug_or_class,disease_or_factor,risk,source_type,source_name,evidence_text,notes
+EV001,NSAID高血压风险,NSAID,高血压,血压控制风险,local_label_summary,本地说明书风险摘要,"NSAID类药物在部分患者中可能影响血压控制，高血压患者使用时应关注血压变化。","MVP本地证据片段，后续可替换为DailyMed/openFDA原文证据"
+EV002,NSAID老年人风险,NSAID,老年人,胃肠道和肾功能风险,local_label_summary,本地说明书风险摘要,"老年人使用NSAID类药物时需关注胃肠道出血、胃痛、黑便、水肿、尿量变化等风险提示。","MVP本地证据片段"
+EV003,NSAID抗凝药出血风险,NSAID,抗凝药,出血风险,local_label_summary,本地规则证据摘要,"NSAID类药物与抗凝药合用时可能增加出血相关风险，尤其需要关注胃肠道出血等情况。","MVP本地证据片段"
+EV004,布洛芬华法林风险,Ibuprofen,Warfarin,出血风险,local_label_summary,本地规则证据摘要,"布洛芬属于NSAID，华法林属于抗凝药，两者合用时需关注出血风险，具体用药需由医生或药师评估。","MVP本地证据片段"
+EV005,阿司匹林华法林风险,Aspirin,Warfarin,出血风险,local_label_summary,本地规则证据摘要,"阿司匹林具有抗血小板作用，华法林具有抗凝作用，两者合用可能增加出血风险。","MVP本地证据片段"
+EV006,对乙酰氨基酚肝功能异常风险,Acetaminophen,肝功能异常,肝损伤风险,local_label_summary,本地说明书风险摘要,"对乙酰氨基酚在过量、饮酒或肝功能异常情况下可能增加肝损伤风险，应关注复方感冒药重复用药。","MVP本地证据片段"
+EV007,二甲双胍肾功能不全风险,Metformin,肾功能不全,乳酸性酸中毒风险,local_label_summary,本地说明书风险摘要,"肾功能不全可能影响二甲双胍清除，需结合肾功能情况评估用药安全。","MVP本地证据片段"
+EV008,NSAID胃溃疡风险,NSAID,胃溃疡,胃肠道出血或溃疡加重,local_label_summary,本地说明书风险摘要,"NSAID类药物可能刺激或损伤胃肠道黏膜，既往胃溃疡患者使用时需特别谨慎。","MVP本地证据片段"
+EV009,布洛芬剂量参考,Ibuprofen,剂量,剂量超出本地参考,local_dose_summary,本地剂量参考摘要,"本地剂量参考仅用于安全筛查，布洛芬短期止痛使用时应关注单次剂量、每日总量和连续使用天数。","MVP本地证据片段"
+EV010,对乙酰氨基酚剂量参考,Acetaminophen,剂量,肝毒性风险,local_dose_summary,本地剂量参考摘要,"对乙酰氨基酚需要关注每日总量，避免与复方感冒药重复使用，肝功能异常或饮酒者需更谨慎。","MVP本地证据片段"

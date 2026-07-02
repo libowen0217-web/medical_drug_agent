@@ -1,0 +1,9 @@
+drug_en_name,zh_name,max_single_dose_mg,max_daily_dose_mg,max_duration_days,reference_single_dose_mg,reference_times_per_day,reference_duration_days,elderly_caution,notes
+Ibuprofen,布洛芬,400,1200,3,200,3,3,true,非处方短期止痛场景参考；具体剂量需以说明书和药师判断为准
+Acetaminophen,对乙酰氨基酚,500,3000,3,500,3,3,true,需注意复方感冒药重复用药和肝功能风险
+Aspirin,阿司匹林,100,300,7,100,1,3,true,不同适应症剂量差异较大；需结合用途判断
+Metformin,二甲双胍,500,2000,,,,,false,需关注肾功能
+Nifedipine,硝苯地平,30,90,,,,,true,降压药不应自行调整剂量
+Amlodipine,氨氯地平,5,10,,,,,true,降压药不应自行调整剂量
+Warfarin,华法林,5,10,,,,,true,剂量个体化强，需结合 INR 监测
+Omeprazole,奥美拉唑,20,40,14,20,1,7,true,长期使用需医生评估

@@ -1,0 +1,28 @@
+disease_id,disease_name_cn,disease_name_en,category,scope,severity,typical_symptoms,required_keywords,optional_keywords,red_flag_keywords,candidate_drug_classes,candidate_drugs,advice
+common_cold,普通感冒,Common Cold,呼吸系统,otc_allowed,low,发热;头痛;咽痛;鼻塞;流涕;咳嗽,鼻塞|流涕|咽痛,发热|头痛|咳嗽,,解热镇痛;抗过敏;止咳化痰,对乙酰氨基酚;布洛芬;氯雷他定;氨溴索,轻症可进入 OTC 候选药辅助评估
+influenza_like,流感样症状,Influenza-like Illness,呼吸系统,otc_caution,medium,高热;头痛;肌肉酸痛;乏力;咽痛,发热|高热,头痛|肌肉酸痛|乏力|咽痛,持续高热|呼吸困难,解热镇痛,对乙酰氨基酚;布洛芬,若高热持续或症状加重，应及时由医生进一步评估
+sore_throat,咽炎/咽痛,Pharyngitis,呼吸系统,otc_allowed,low,咽痛;嗓子疼;吞咽痛,咽痛|嗓子疼|喉咙痛,发热|咳嗽,呼吸困难|吞咽困难,解热镇痛,对乙酰氨基酚;布洛芬,轻症可进行对症用药安全评估
+cough_syndrome,咳嗽症状群,Cough Syndrome,呼吸系统,otc_allowed,low,咳嗽;有痰;干咳,咳嗽,咳痰|有痰|咽痛|鼻塞,咯血|呼吸困难|胸痛,止咳化痰,氨溴索;愈创甘油醚,如出现咯血、胸痛或呼吸困难需及时由医生进一步评估
+allergic_rhinitis,过敏性鼻炎,Allergic Rhinitis,过敏免疫,otc_allowed,low,打喷嚏;流涕;鼻痒;鼻塞,打喷嚏|鼻痒|流涕,鼻塞|眼痒,呼吸困难|严重过敏,抗过敏,氯雷他定;西替利嗪,可进行抗过敏候选药安全评估
+headache,头痛,Headache,神经系统,otc_allowed,low,头痛;头疼;偏头痛,头痛|头疼,轻中度疼痛,剧烈头痛|意识模糊|呕吐,解热镇痛,对乙酰氨基酚;布洛芬,需排除剧烈头痛和神经系统红旗症状
+mild_pain,轻中度疼痛,Mild Pain,疼痛管理,otc_allowed,low,轻中度疼痛;肌肉酸痛;关节痛;牙痛,轻中度疼痛|肌肉酸痛|关节痛|牙痛,头痛|发热,剧烈疼痛|外伤严重,解热镇痛,对乙酰氨基酚;布洛芬,轻中度疼痛可进入 OTC 候选药辅助评估
+fever,发热,Fever,全身症状,otc_caution,medium,发热;发烧;体温升高,发热|发烧,头痛|咽痛|肌肉酸痛,持续高热|儿童持续高热|孕妇高热|意识模糊,解热镇痛,对乙酰氨基酚;布洛芬,需结合体温、持续时间和特殊人群情况谨慎评估
+acid_reflux,胃酸反流,Gastroesophageal Reflux,消化系统,otc_allowed,low,反酸;烧心;胃部不适,反酸|烧心,胃痛|嗳气,黑便|呕血|剧烈腹痛,抑酸类,奥美拉唑,若出现黑便、呕血或剧烈腹痛需及时由医生进一步评估
+stomach_discomfort,胃痛/胃部不适,Stomach Discomfort,消化系统,otc_caution,medium,胃痛;胃部不适;胃胀,胃痛|胃部不适,反酸|烧心|嗳气,黑便|呕血|剧烈腹痛,抑酸类,奥美拉唑,胃部症状持续、加重或伴红旗表现时需医生进一步评估
+indigestion,消化不良,Indigestion,消化系统,otc_allowed,low,腹胀;嗳气;消化不良;胃部不适,消化不良|腹胀,嗳气|胃部不适,黑便|呕血|剧烈腹痛,胃肠调节类;抑酸类,奥美拉唑,轻症可进行对症评估，持续或加重需医生进一步评估
+diarrhea,腹泻,Diarrhea,消化系统,otc_caution,medium,腹泻;稀便;腹痛,腹泻|稀便,腹痛|恶心,血便|高热|严重脱水,补液;止泻类,口服补液盐,需关注脱水、血便和高热等红旗情况
+constipation,便秘,Constipation,消化系统,otc_allowed,low,便秘;排便困难;大便干结,便秘|排便困难,大便干结,剧烈腹痛|呕吐|便血,通便类,,若伴剧烈腹痛、呕吐或便血需及时由医生进一步评估
+allergic_reaction,过敏反应,Allergic Reaction,过敏免疫,otc_caution,medium,皮疹;瘙痒;过敏,过敏|皮疹|瘙痒,风团|鼻痒,呼吸困难|喉头水肿|严重过敏,抗过敏,氯雷他定;西替利嗪,需排除严重过敏反应后再进行 OTC 辅助评估
+urticaria,荨麻疹,Urticaria,过敏免疫,otc_caution,medium,风团;皮疹;瘙痒;荨麻疹,荨麻疹|风团|瘙痒,皮疹,呼吸困难|喉头水肿|严重过敏,抗过敏,氯雷他定;西替利嗪,若出现呼吸困难或喉头水肿需立即由医生进一步评估
+skin_itch,皮肤瘙痒,Skin Itch,皮肤系统,otc_allowed,low,皮肤瘙痒;瘙痒;皮疹,皮肤瘙痒|瘙痒,皮疹|过敏,严重过敏|喉头水肿,抗过敏,氯雷他定;西替利嗪,轻症可进行抗过敏候选药安全评估
+lung_cancer,肺癌,Lung Cancer,严重疾病,referral_required,high,肺癌;咯血;胸痛;消瘦,肺癌,咯血|胸痛|消瘦,肺癌|咯血|呼吸困难,,,严重疾病或相关描述不适合 OTC 候选药评估，请由医生进一步评估
+cancer,癌症,Cancer,严重疾病,referral_required,high,癌症;肿瘤;消瘦;不明原因疼痛,癌症|肿瘤,消瘦|持续疼痛,癌症|肿瘤|咯血|黑便,,,涉及严重疾病描述，不适合生成 OTC 候选药
+chest_pain,胸痛,Chest Pain,红旗症状,referral_required,high,胸痛;胸闷;压榨痛,胸痛|胸闷,气短|出汗,胸痛|呼吸困难|意识模糊,,,胸痛属于红旗症状，不适合由本系统生成 OTC 候选药
+dyspnea,呼吸困难,Dyspnea,红旗症状,referral_required,high,呼吸困难;气短;喘不上气,呼吸困难|气短|喘不上气,胸闷,呼吸困难|紫绀|意识模糊,,,呼吸困难属于红旗症状，请由医生进一步评估
+hemoptysis,咯血,Hemoptysis,红旗症状,referral_required,high,咯血;咳血,咯血|咳血,胸痛|呼吸困难,咯血|呼吸困难,,,咯血属于红旗症状，不适合 OTC 候选药评估
+confusion,意识模糊,Confusion,红旗症状,referral_required,high,意识模糊;昏迷;抽搐,意识模糊|昏迷|抽搐,高热,意识模糊|昏迷|抽搐,,,意识状态异常需要医生进一步评估
+severe_headache,剧烈头痛,Severe Headache,红旗症状,referral_required,high,剧烈头痛;突发头痛,剧烈头痛|突发头痛,呕吐|意识模糊,剧烈头痛|意识模糊,,,剧烈头痛属于红旗症状，不适合 OTC 候选药评估
+severe_abdominal_pain,严重腹痛,Severe Abdominal Pain,红旗症状,referral_required,high,严重腹痛;剧烈腹痛,严重腹痛|剧烈腹痛,呕吐|黑便,剧烈腹痛|黑便|呕血,,,严重腹痛需要医生进一步评估
+black_stool,黑便,Black Stool,红旗症状,referral_required,high,黑便;柏油样便,黑便|柏油样便,胃痛|乏力,黑便|呕血,,,黑便属于消化道出血风险提示，不适合 OTC 候选药评估
+hematemesis,呕血,Hematemesis,红旗症状,referral_required,high,呕血;吐血,呕血|吐血,胃痛|黑便,呕血|黑便,,,呕血属于红旗症状，需要医生进一步评估
+severe_allergy,严重过敏反应,Severe Allergic Reaction,红旗症状,referral_required,high,严重过敏;喉头水肿;呼吸困难;全身皮疹,严重过敏|喉头水肿,呼吸困难|全身皮疹,喉头水肿|呼吸困难,,,严重过敏反应不适合 OTC 候选药评估

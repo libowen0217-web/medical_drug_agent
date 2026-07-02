@@ -1,0 +1,18 @@
+:root {
+  --color-primary: #2563eb;
+  --color-primary-dark: #123d91;
+  --color-primary-soft: #edf5ff;
+  --color-page-bg: #f3f8fe;
+  --color-card-bg: #ffffff;
+  --color-border: #dbe7f6;
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+  --color-neo4j: #2563eb;
+  --color-csv: #6b85a7;
+  --color-text-main: #1f2937;
+  --color-text-secondary: #5f6f87;
+  --shadow-card: 0 12px 28px rgba(18, 61, 145, 0.08);
+  --radius-lg: 18px;
+  --radius-md: 14px;
+}

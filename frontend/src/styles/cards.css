@@ -1,0 +1,43 @@
+.card-shell {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.card-body {
+  padding: 18px 20px;
+}
+
+.card-title {
+  margin: 0 0 8px;
+  color: var(--color-primary-dark);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.card-desc {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.metric-tile {
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.metric-label {
+  margin-bottom: 8px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.metric-value {
+  color: var(--color-primary-dark);
+  font-size: 16px;
+  font-weight: 700;
+}

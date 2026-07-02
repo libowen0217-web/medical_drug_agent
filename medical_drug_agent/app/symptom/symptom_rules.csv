@@ -1,0 +1,10 @@
+symptom_name,keywords,severity
+发热,发热;发烧;体温高;低烧;高烧,medium
+头痛,头痛;脑袋疼;头疼,medium
+咽痛,嗓子疼;咽痛;喉咙痛;嗓子痛,medium
+流鼻涕,流鼻涕;流涕;鼻涕多,low
+打喷嚏,打喷嚏;喷嚏,low
+鼻痒,鼻痒;鼻子痒,low
+咳嗽,咳嗽;咳,medium
+有痰,有痰;痰多;咳痰,medium
+咽喉不适,咽喉不适;喉咙不舒服;嗓子不舒服,low

@@ -1,0 +1,4 @@
+candidate_id,symptom_group,keywords,drug_class,candidate_drugs,is_otc,requires_doctor_confirmation,caution,reason
+OTC001,发热疼痛,发热;发烧;头痛;肌肉酸痛,退热镇痛类,对乙酰氨基酚;布洛芬,true,false,肝功能异常或饮酒者使用对乙酰氨基酚需谨慎；高血压、胃溃疡、肾功能不全、老年人使用布洛芬需谨慎。,用于发热、头痛或肌肉酸痛等常见不适的 OTC 候选类别参考。
+OTC002,鼻部症状,流鼻涕;流涕;打喷嚏;喷嚏;鼻痒,抗过敏类,氯雷他定;西替利嗪,true,false,嗜睡风险、驾驶或高龄患者需谨慎。,用于流涕、打喷嚏、鼻痒等过敏样鼻部症状的 OTC 候选类别参考。
+OTC003,咳嗽咽喉,咳嗽;咳;有痰;痰多;咽痛;喉咙痛;嗓子疼,化痰/祛痰类,氨溴索;愈创甘油醚,true,false,咳血、呼吸困难、胸痛、长期咳嗽等情况不适合按普通 OTC 情况处理。,用于咳嗽、有痰、咽喉不适等场景的 OTC 候选类别参考。

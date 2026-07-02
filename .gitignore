@@ -1,0 +1,43 @@
+# Environment variables and local secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Python cache and test artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Logs and runtime outputs
+*.log
+logs/
+outputs/
+audit_logs/
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# IDE and OS files
+.idea/
+.claude/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp

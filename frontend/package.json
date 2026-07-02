@@ -1,0 +1,22 @@
+{
+  "name": "medical-drug-agent-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "latest",
+    "@vitejs/plugin-vue": "latest",
+    "axios": "latest",
+    "element-plus": "latest",
+    "pinia": "latest",
+    "vite": "latest",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {}
+}

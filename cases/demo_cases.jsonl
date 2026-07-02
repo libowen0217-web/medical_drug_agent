@@ -1,0 +1,12 @@
+{"case_id":"case_001","case_name":"高血压老年人使用 NSAID","expected_risk_level":"medium","request":{"current_drugs":["硝苯地平"],"new_drug":"布洛芬","age":68,"diseases":["高血压"],"patient_factors":[],"dose":null}}
+{"case_id":"case_002","case_name":"高血压老年人使用 NSAID，带剂量且疗程偏长","expected_risk_level":"medium","request":{"current_drugs":["硝苯地平"],"new_drug":"布洛芬","age":68,"diseases":["高血压"],"patient_factors":[],"dose":{"single_dose_mg":400,"times_per_day":3,"duration_days":5}}}
+{"case_id":"case_003","case_name":"华法林合并布洛芬","expected_risk_level":"high","request":{"current_drugs":["华法林"],"new_drug":"布洛芬","age":70,"diseases":[],"patient_factors":[],"dose":null}}
+{"case_id":"case_004","case_name":"华法林合并阿司匹林","expected_risk_level":"high","request":{"current_drugs":["华法林"],"new_drug":"阿司匹林","age":72,"diseases":[],"patient_factors":[],"dose":null}}
+{"case_id":"case_005","case_name":"对乙酰氨基酚伴肝功能异常","expected_risk_level":"medium","request":{"current_drugs":["奥美拉唑"],"new_drug":"对乙酰氨基酚","age":45,"diseases":["肝功能异常"],"patient_factors":[],"dose":null}}
+{"case_id":"case_006","case_name":"二甲双胍患者伴肾功能不全后使用布洛芬","expected_risk_level":"medium","request":{"current_drugs":["二甲双胍"],"new_drug":"布洛芬","age":66,"diseases":["肾功能不全"],"patient_factors":[],"dose":null}}
+{"case_id":"case_007","case_name":"胃溃疡患者使用布洛芬","expected_risk_level":"high","request":{"current_drugs":["奥美拉唑"],"new_drug":"布洛芬","age":50,"diseases":["胃溃疡"],"patient_factors":[],"dose":null}}
+{"case_id":"case_008","case_name":"普通成人短期布洛芬","expected_risk_level":"low","request":{"current_drugs":["奥美拉唑"],"new_drug":"布洛芬","age":35,"diseases":[],"patient_factors":[],"dose":{"single_dose_mg":200,"times_per_day":2,"duration_days":2}}}
+{"case_id":"case_009","case_name":"未提供剂量的布洛芬","expected_risk_level":"unknown","request":{"current_drugs":["奥美拉唑"],"new_drug":"布洛芬","age":35,"diseases":[],"patient_factors":[],"dose":null}}
+{"case_id":"case_010","case_name":"未知药物输入","expected_status":"error","expected_error_code":"UNKNOWN_DRUG","request":{"current_drugs":["硝苯地平"],"new_drug":"不存在的药物","age":50,"diseases":["高血压"],"patient_factors":[],"dose":null}}
+{"case_id":"case_011","case_name":"输入缺少 current_drugs","expected_status":"error","expected_error_code":"INVALID_INPUT","request":{"current_drugs":[],"new_drug":"布洛芬","age":50,"diseases":[],"patient_factors":[],"dose":null}}
+{"case_id":"case_012","case_name":"年龄为负数","expected_status":"error","expected_error_code":"INVALID_INPUT","request":{"current_drugs":["硝苯地平"],"new_drug":"布洛芬","age":-1,"diseases":[],"patient_factors":[],"dose":null}}

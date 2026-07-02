@@ -1,0 +1,10 @@
+rule_id,trigger_type,drug_or_class,patient_factor,disease,paired_drug_or_class,risk_level,risk,mechanism,recommendation,evidence_note
+R001,class_disease,NSAID,,高血压,,medium,可能影响血压控制,NSAID类药物可能导致血压升高或减弱部分降压治疗效果,建议短期低剂量使用并监测血压；如疼痛持续或血压波动，应咨询医生或药师,基于药店用药安全规则和公开药品说明书风险信息整理
+R002,class_patient_factor,NSAID,老年人,,,medium,胃肠道出血和肾功能损伤风险增加,老年人使用NSAID类药物时胃肠道和肾脏相关不良反应风险更高,避免长期自行使用；注意胃痛、黑便、水肿、尿量变化等症状，必要时咨询医生或药师,基于老年人用药安全原则整理
+R003,class_class,NSAID,,,抗凝药,high,出血风险增加,NSAID类药物可能增加胃肠道出血风险，与抗凝药合用时出血风险进一步升高,不建议自行合用，应由医生或药师评估,基于药物相互作用风险规则整理
+R004,drug_pair,Aspirin,,,Warfarin,high,出血风险增加,阿司匹林具有抗血小板作用，华法林为抗凝药，合用可能增加出血风险,不要自行合用，需医生评估,基于抗血小板药与抗凝药合用风险规则整理
+R005,drug_disease,Acetaminophen,,肝功能异常,,medium,肝损伤风险增加,对乙酰氨基酚过量或肝功能异常时可能增加肝毒性风险,需要控制剂量，避免饮酒和复方感冒药重复用药，并咨询医生或药师,基于解热镇痛药用药安全规则整理
+R006,drug_disease,Metformin,,肾功能不全,,high,乳酸酸中毒风险增加,肾功能不全可能影响二甲双胍清除，增加乳酸酸中毒风险,需根据肾功能评估是否适合使用，应咨询医生,基于降糖药用药安全规则整理
+R007,drug_pair,Ibuprofen,,,Warfarin,high,出血风险增加,布洛芬属于NSAID，华法林属于抗凝药，合用可能增加出血风险,不建议自行合用，应咨询医生或药师,基于NSAID与抗凝药合用风险规则整理
+R008,class_disease,NSAID,,胃溃疡,,high,胃肠道出血或溃疡加重风险增加,NSAID类药物可能损伤胃黏膜，既往胃溃疡患者风险更高,不建议自行使用，应咨询医生或药师,基于NSAID胃肠道风险规则整理
+

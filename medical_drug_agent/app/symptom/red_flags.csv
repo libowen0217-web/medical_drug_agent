@@ -1,0 +1,16 @@
+red_flag_id,category,keywords,condition_hint,urgency_level,action,description
+RF001,respiratory,呼吸困难;喘不上气;气短,keyword,high,建议由医生进一步评估，必要时及时就医。,出现呼吸困难或明显气促时，应优先排除严重情况。
+RF002,cardiac,胸痛;胸闷痛,keyword,high,建议由医生进一步评估，必要时及时就医。,出现胸痛时不适合继续按普通 OTC 情况处理。
+RF003,neurologic,意识模糊;神志不清;昏昏沉沉,keyword,high,建议由医生进一步评估，必要时及时就医。,意识状态异常提示需要进一步专业评估。
+RF004,neurologic,抽搐;惊厥,keyword,high,建议由医生进一步评估，必要时及时就医。,抽搐或惊厥属于需要尽快处理的危险信号。
+RF005,bleeding,咳血;痰中带血,keyword,high,建议由医生进一步评估，必要时及时就医。,出现咳血或痰中带血不适合普通 OTC 自行处理。
+RF006,fever,持续高热;高热不退,fever_duration,high,建议由医生进一步评估，必要时及时就医。,高热持续不退提示需要进一步专业评估。
+RF007,fever,40度;40℃;40.0,temperature_gte_40,high,建议由医生进一步评估，必要时及时就医。,体温达到或超过 40℃ 时应及时就医。
+RF008,dehydration,严重脱水;口唇干裂;尿很少;尿量明显减少,keyword,high,建议由医生进一步评估，必要时及时就医。,明显脱水表现提示需要进一步处理。
+RF009,pediatric,婴幼儿高热;小孩高热,pediatric_fever,high,建议由医生进一步评估，必要时及时就医。,婴幼儿高热需谨慎评估。
+RF010,pregnancy,孕妇发热;怀孕发热,pregnancy_fever,high,建议由医生进一步评估，必要时及时就医。,孕期发热需要结合孕周和整体情况进一步评估。
+RF011,elderly,加重;越来越严重;明显加重,elderly_worsening,high,建议由医生进一步评估，必要时及时就医。,老年人症状明显加重时不适合仅做 OTC 参考。
+RF012,fever_rebound,退烧后再次加重;好转后再加重,keyword,medium,建议由医生进一步评估，必要时及时就医。,症状好转后再次加重提示需要重新评估。
+RF013,allergy,严重过敏;过敏反应严重;喉头紧,keyword,high,建议由医生进一步评估，必要时及时就医。,严重过敏表现需要及时评估。
+RF014,allergy,皮疹;呼吸困难,keyword_combo,high,建议由医生进一步评估，必要时及时就医。,皮疹合并呼吸困难提示可能存在严重过敏反应。
+RF015,meningitic,剧烈头痛;头痛剧烈;颈部僵硬;脖子硬,keyword_combo,high,建议由医生进一步评估，必要时及时就医。,剧烈头痛伴颈部僵硬提示需要尽快评估。

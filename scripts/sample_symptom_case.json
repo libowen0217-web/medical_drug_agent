@@ -1,0 +1,11 @@
+{
+  "symptom_text": "发热、头痛、嗓子疼，两天了",
+  "age": 68,
+  "sex": "unknown",
+  "temperature_c": 38.5,
+  "duration_days": 2,
+  "current_drugs": ["硝苯地平"],
+  "diseases": ["高血压"],
+  "patient_factors": [],
+  "allergies": []
+}
