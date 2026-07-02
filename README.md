@@ -11,6 +11,10 @@
 - npm
 - 可选：Neo4j Desktop 或 Neo4j Server
 - 可选：OpenAI-compatible 或 Anthropic-compatible LLM API Key
+## 数据来源
+我从 PrimeKG 的 kg.csv 中筛选了 100 种社区常见药物，
+只保留 drug-drug、drug-disease、drug-effect 三类关系，
+使用 clean_primekg_core100.py（脚本）自动生成数据集。
 
 ## 克隆后安装
 
