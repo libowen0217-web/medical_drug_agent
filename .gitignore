@@ -19,6 +19,9 @@ htmlcov/
 venv/
 env/
 
+# Raw / large data files
+data/raw/
+
 # Logs and runtime outputs
 *.log
 logs/
