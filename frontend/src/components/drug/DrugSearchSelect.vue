@@ -22,9 +22,14 @@
     <el-option
       v-for="item in filteredOptions"
       :key="item.standard_name || item.display_name || item.label"
-      :label="item.label || `${item.display_name || ''} / ${item.standard_name || ''}`"
+      :label="item.display_name || item.standard_name"
       :value="item.display_name || item.standard_name"
-    />
+    >
+      <div class="option-main">{{ item.display_name || item.standard_name }}</div>
+      <div class="option-sub">
+        {{ [item.standard_name, item.pinyin, ...(Array.isArray(item.aliases) ? item.aliases : [])].filter(Boolean).join(' / ') }}
+      </div>
+    </el-option>
 
     <template #empty>
       <div class="empty-text">{{ noDataText }}</div>
@@ -120,5 +125,17 @@ function handleSearch(value) {
   color: var(--color-text-secondary);
   font-size: 13px;
   line-height: 1.6;
+}
+
+.option-main {
+  color: var(--color-text-main);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.option-sub {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
 }
 </style>

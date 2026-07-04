@@ -15,17 +15,16 @@ defineProps({
 
 <style scoped>
 .report-panel {
+  padding: 14px 16px;
   border: 1px solid var(--color-border);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-  padding: 16px 18px;
 }
 
 .report-content {
-  max-height: 360px;
-  overflow: auto;
   color: var(--color-text-main);
-  line-height: 1.9;
+  font-size: 14px;
+  line-height: 1.85;
   white-space: pre-wrap;
   word-break: break-word;
 }

@@ -2,11 +2,14 @@
   <div class="layout-shell">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-title">社区药店多智能体</div>
-        <div class="brand-subtitle">用药安全辅助系统</div>
+        <div class="brand-mark">Rx</div>
+        <div>
+          <div class="brand-title">社区药店</div>
+          <div class="brand-subtitle">用药安全辅助</div>
+        </div>
       </div>
 
-      <nav class="nav-list">
+      <nav class="nav-list" aria-label="主导航">
         <RouterLink
           v-for="item in navItems"
           :key="item.path"
@@ -14,33 +17,30 @@
           class="nav-item"
           active-class="is-active"
         >
-          {{ item.label }}
+          <span class="nav-dot" />
+          <span>{{ item.label }}</span>
         </RouterLink>
       </nav>
 
-      <div class="sidebar-footer">
-        面向社区药店、医生与药师的本地辅助工具，聚焦药物安全检查、症状问诊辅助和候选药协作评估。
-      </div>
+      <button class="settings-entry" title="系统设置" type="button" @click="settingVisible = true">
+        <span class="settings-icon">⚙</span>
+        <span>系统设置</span>
+      </button>
     </aside>
 
     <div class="main-shell">
       <header class="topbar">
-        <section class="card-shell">
-          <div class="card-body topbar-body">
-            <div>
-              <div class="topbar-title">社区药店多智能体用药安全辅助系统</div>
-              <div class="topbar-subtitle">
-                统一承接药物搜索、风险检查、症状问诊辅助和候选药评估，调试信息集中放在系统调试页面。
-              </div>
-            </div>
-            <el-button type="primary" plain @click="settingVisible = true">设置</el-button>
+        <section class="topbar-card">
+          <div>
+            <div class="topbar-title">社区药店多智能体用药安全辅助系统</div>
+            <div class="topbar-subtitle">面向药师柜台场景，辅助完成用药风险评估、症状问诊、候选药对比与审计追溯。</div>
           </div>
         </section>
       </header>
 
-      <div class="content-shell">
+      <main class="content-shell">
         <RouterView :key="$route.fullPath" />
-      </div>
+      </main>
     </div>
 
     <SettingDialog v-model="settingVisible" />
@@ -61,7 +61,7 @@ const navItems = [
   { path: '/drug-safety', label: '用药安全检查' },
   { path: '/symptom-consult', label: '症状问诊辅助' },
   { path: '/medication-debate', label: '候选药协作评估' },
-  { path: '/debug', label: '系统调试与审计' },
+  { path: '/debug', label: '审计追溯中心' },
 ]
 
 watch(
@@ -77,61 +77,110 @@ watch(
 .layout-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 228px 1fr;
 }
 
 .sidebar {
-  padding: 24px 18px;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px 14px 22px;
   background: linear-gradient(180deg, #15397b 0%, #0f2d63 100%);
   color: #fff;
 }
 
 .brand {
-  margin-bottom: 28px;
-  padding: 20px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 13px;
+  background: #fff;
+  color: #15397b;
+  font-weight: 850;
 }
 
 .brand-title {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 850;
 }
 
 .brand-subtitle {
-  margin-top: 8px;
-  color: rgba(255, 255, 255, 0.86);
-  font-size: 14px;
-  line-height: 1.6;
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 13px;
 }
 
 .nav-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
-.nav-item {
-  padding: 14px 16px;
-  border-radius: 14px;
-  color: rgba(255, 255, 255, 0.88);
+.nav-item,
+.settings-entry {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-radius: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 700;
   transition: all 0.2s ease;
 }
 
+.nav-item {
+  padding: 12px 13px;
+}
+
+.nav-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
 .nav-item:hover,
-.nav-item.is-active {
+.nav-item.is-active,
+.settings-entry:hover {
   background: rgba(255, 255, 255, 0.16);
   color: #fff;
 }
 
-.sidebar-footer {
-  margin-top: 24px;
-  padding: 16px;
-  border-radius: 16px;
+.nav-item.is-active .nav-dot {
+  background: #7dd3fc;
+}
+
+.settings-entry {
+  width: 100%;
+  margin-top: auto;
+  min-height: 38px;
+  padding: 8px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 13px;
-  line-height: 1.7;
+  cursor: pointer;
+}
+
+.settings-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .main-shell {
@@ -141,34 +190,35 @@ watch(
 }
 
 .topbar {
-  margin: 20px 20px 0;
+  padding: 16px 20px 0;
 }
 
-.topbar-body {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+.topbar-card {
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(10px);
 }
 
 .topbar-title {
   color: var(--color-primary-dark);
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 850;
 }
 
 .topbar-subtitle {
-  margin-top: 8px;
+  margin-top: 4px;
   color: var(--color-text-secondary);
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .content-shell {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 20px 20px 28px;
 }
 
 @media (max-width: 1080px) {
@@ -177,12 +227,23 @@ watch(
   }
 
   .sidebar {
-    padding-bottom: 12px;
+    position: static;
+    height: auto;
   }
 
-  .topbar-body {
-    flex-direction: column;
-    align-items: flex-start;
+  .nav-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .settings-entry {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-list {
+    grid-template-columns: 1fr;
   }
 }
 </style>

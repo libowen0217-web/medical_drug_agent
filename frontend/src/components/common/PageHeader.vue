@@ -1,11 +1,11 @@
 <template>
   <div class="page-header card-shell">
     <div class="card-body header-body">
-      <h1 class="title">{{ title }}</h1>
-      <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
-      <div class="disclaimer">
-        本系统仅用于药师或医生的用药安全辅助参考，不构成诊断、处方或最终用药建议。
+      <div>
+        <h1 class="title">{{ title }}</h1>
+        <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
       </div>
+      <div v-if="disclaimer" class="disclaimer">{{ disclaimer }}</div>
     </div>
   </div>
 </template>
@@ -20,6 +20,10 @@ defineProps({
     type: String,
     default: '',
   },
+  disclaimer: {
+    type: String,
+    default: '本系统仅用于药师或医生的用药安全辅助参考，不构成诊断、处方或最终用药建议。',
+  },
 })
 </script>
 
@@ -27,30 +31,31 @@ defineProps({
 .header-body {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .title {
   margin: 0;
   color: var(--color-primary-dark);
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 850;
 }
 
 .subtitle {
-  margin: 0;
-  max-width: 900px;
+  margin: 6px 0 0;
+  max-width: 980px;
   color: var(--color-text-secondary);
-  line-height: 1.8;
+  font-size: 14px;
+  line-height: 1.65;
 }
 
 .disclaimer {
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #f3f8ff 0%, #ebf4ff 100%);
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  background: #f3f8ff;
   border: 1px solid #d8e8ff;
   color: #49627f;
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 12px;
+  line-height: 1.55;
 }
 </style>

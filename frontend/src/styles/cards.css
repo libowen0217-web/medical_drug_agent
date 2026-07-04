@@ -6,25 +6,25 @@
 }
 
 .card-body {
-  padding: 18px 20px;
+  padding: 16px 18px;
 }
 
 .card-title {
-  margin: 0 0 8px;
+  margin: 0 0 5px;
   color: var(--color-primary-dark);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 800;
 }
 
 .card-desc {
   margin: 0;
   color: var(--color-text-secondary);
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .metric-tile {
-  padding: 16px 18px;
+  padding: 14px 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);

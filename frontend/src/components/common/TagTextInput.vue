@@ -1,6 +1,6 @@
 <template>
   <div class="tag-input-shell">
-    <div class="tag-list" v-if="modelValue.length">
+    <div v-if="modelValue.length" class="tag-list">
       <el-tag
         v-for="item in modelValue"
         :key="item"
@@ -76,7 +76,7 @@ function commitDraft() {
 }
 
 function handleInput(value) {
-  if (/[,\n;，；]/.test(String(value || ''))) {
+  if (/[,，;\n；]/.test(String(value || ''))) {
     commitDraft()
   }
 }
@@ -90,7 +90,8 @@ function removeTag(item) {
 .tag-input-shell {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  width: 100%;
 }
 
 .tag-list {

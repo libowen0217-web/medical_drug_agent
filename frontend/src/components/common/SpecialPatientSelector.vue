@@ -1,73 +1,18 @@
 <template>
   <div class="special-selector">
-    <div class="title-row">
-      <div class="section-label">特殊患者因素</div>
-      <div class="section-desc">
-        系统会根据年龄自动识别儿童或老年人；孕妇需结合性别和年龄手动确认。
-      </div>
+    <div class="special-line">
+      <span class="summary-label">特殊人群：</span>
+      <el-tag :type="summaryType" round>{{ summaryText }}</el-tag>
+      <el-checkbox
+        :model-value="uiState.pregnancyChecked"
+        :disabled="uiState.pregnancyDisabled"
+        @change="handlePregnancyChange"
+      >
+        孕妇
+      </el-checkbox>
     </div>
-
-    <div class="stack-sm">
-      <div class="group-block">
-        <div class="group-label">自动识别</div>
-        <div class="chip-row">
-          <el-tag :type="uiState.childActive ? 'warning' : 'info'" round>
-            儿童：{{ uiState.childActive ? '是' : '否' }}
-          </el-tag>
-          <el-tag :type="uiState.elderlyActive ? 'warning' : 'info'" round>
-            老年人：{{ uiState.elderlyActive ? '是' : '否' }}
-          </el-tag>
-        </div>
-      </div>
-
-      <div class="group-block">
-        <div class="group-label">手动确认</div>
-        <el-tooltip v-if="uiState.pregnancyDisabledReason" :content="uiState.pregnancyDisabledReason" placement="top">
-          <div class="pregnancy-wrap">
-            <el-checkbox
-              :model-value="uiState.pregnancyChecked"
-              :disabled="uiState.pregnancyDisabled"
-              @change="handlePregnancyChange"
-            >
-              孕妇
-            </el-checkbox>
-          </div>
-        </el-tooltip>
-        <div v-else class="pregnancy-wrap">
-          <el-checkbox
-            :model-value="uiState.pregnancyChecked"
-            :disabled="uiState.pregnancyDisabled"
-            @change="handlePregnancyChange"
-          >
-            孕妇
-          </el-checkbox>
-        </div>
-      </div>
-
-      <el-alert
-        v-for="warning in uiState.validation.warnings"
-        :key="warning"
-        :title="warning"
-        type="warning"
-        :closable="false"
-        show-icon
-      />
-      <el-alert
-        v-if="uiState.pregnancyDisabledReason"
-        :title="uiState.pregnancyDisabledReason"
-        type="info"
-        :closable="false"
-        show-icon
-      />
-      <el-alert
-        v-for="error in uiState.validation.errors"
-        :key="error"
-        :title="error"
-        type="error"
-        :closable="false"
-        show-icon
-      />
-    </div>
+    <div v-if="pregnancyError" class="special-error">{{ pregnancyError }}</div>
+    <div v-else-if="summaryHint" class="special-hint">{{ summaryHint }}</div>
   </div>
 </template>
 
@@ -93,14 +38,45 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const pregnancySelected = ref(Array.isArray(props.modelValue) && props.modelValue.includes('孕妇'))
+const selectedFactors = computed(() => (pregnancySelected.value ? ['孕妇'] : []))
 
 const uiState = computed(() =>
   getSpecialPatientUIState({
     age: props.age,
     sex: props.sex,
-    selectedFactors: pregnancySelected.value ? ['孕妇'] : [],
+    selectedFactors: selectedFactors.value,
   })
 )
+
+const finalFactors = computed(() =>
+  deriveSpecialFactors({
+    age: props.age,
+    sex: props.sex,
+    selectedFactors: selectedFactors.value,
+  })
+)
+
+const summaryText = computed(() => {
+  if (finalFactors.value.includes('儿童')) return '儿童'
+  if (finalFactors.value.includes('老年人')) return '老年人'
+  if (finalFactors.value.includes('孕妇')) return '孕妇'
+  return '普通成人'
+})
+
+const summaryType = computed(() => (summaryText.value === '普通成人' ? 'info' : 'warning'))
+
+const pregnancyError = computed(() => {
+  if (!uiState.value.pregnancyDisabled || !pregnancySelected.value) return ''
+  if (props.sex === 'male') return '患者性别与孕妇身份不匹配，请修改患者信息。'
+  return '当前年龄与孕妇身份不匹配，请核实患者信息。'
+})
+
+const summaryHint = computed(() => {
+  if (summaryText.value === '老年人') return '系统将按老年患者用药风险进行辅助判断。'
+  if (summaryText.value === '儿童') return '系统将按儿童患者用药风险进行辅助判断。'
+  if (uiState.value.pregnancyDisabledReason) return uiState.value.pregnancyDisabledReason
+  return ''
+})
 
 watch(
   () => props.modelValue,
@@ -111,17 +87,12 @@ watch(
 )
 
 watch(
-  () => [props.age, props.sex, pregnancySelected.value],
-  () => {
-    const nextFactors = deriveSpecialFactors({
-      age: props.age,
-      sex: props.sex,
-      selectedFactors: pregnancySelected.value ? ['孕妇'] : [],
-    })
+  finalFactors,
+  (nextFactors) => {
     if (JSON.stringify(nextFactors) !== JSON.stringify(props.modelValue || [])) {
       emit('update:modelValue', nextFactors)
     }
-    if (!nextFactors.includes('孕妇') && pregnancySelected.value) {
+    if (!nextFactors.includes('孕妇') && pregnancySelected.value && uiState.value.pregnancyDisabled) {
       pregnancySelected.value = false
     }
   },
@@ -136,46 +107,34 @@ function handlePregnancyChange(value) {
 <style scoped>
 .special-selector {
   width: 100%;
+  min-height: 36px;
 }
 
-.title-row {
-  margin-bottom: 10px;
+.special-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
 }
 
-.section-label {
-  margin-bottom: 6px;
+.summary-label {
   color: var(--color-primary-dark);
   font-size: 14px;
   font-weight: 700;
 }
 
-.section-desc {
+.special-hint,
+.special-error {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.special-hint {
   color: var(--color-text-secondary);
-  font-size: 13px;
-  line-height: 1.6;
 }
 
-.group-block {
-  padding: 12px 14px;
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  background: #f8fbff;
-}
-
-.group-label {
-  margin-bottom: 10px;
-  color: var(--color-primary-dark);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.chip-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.pregnancy-wrap {
-  display: inline-flex;
+.special-error {
+  color: var(--color-danger);
 }
 </style>

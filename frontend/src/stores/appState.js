@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { normalizeApiBaseUrl } from '@/api/request'
 
 const STORAGE_KEY = 'medical-drug-agent-settings'
+const AUDIT_STORAGE_KEY = 'medical-drug-agent-audit-records'
 
 const defaultSettings = {
   enableLlm: true,
@@ -33,15 +34,45 @@ function loadSettings() {
   }
 }
 
+function loadAuditRecords() {
+  try {
+    localStorage.removeItem('lastDrugSafetyResult')
+    localStorage.removeItem('lastDrugSafetyResponse')
+    localStorage.removeItem('lastSafetyAudit')
+    const raw = localStorage.getItem(AUDIT_STORAGE_KEY)
+    const records = raw ? JSON.parse(raw) : []
+    return Array.isArray(records) ? records : []
+  } catch (error) {
+    return []
+  }
+}
+
+function persistAuditRecords(records) {
+  try {
+    localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify(records.slice(0, 50)))
+  } catch (error) {
+    // Local storage may be unavailable or full; the in-memory list still works.
+  }
+}
+
+function recordTime(record) {
+  const raw = record?.created_at || record?.timestamp || record?.generated_at || record?.response?.timestamp || ''
+  const time = new Date(raw).getTime()
+  return Number.isNaN(time) ? 0 : time
+}
+
 export const useAppStateStore = defineStore('appState', {
   state: () => ({
     settings: loadSettings(),
     healthStatus: null,
     knowledgeBackendStatus: null,
     latestDrugSafetyResponse: null,
+    latestDrugSafetyRequest: null,
     latestSymptomConsultResponse: null,
+    latestSymptomConsultRequest: null,
     latestDebateSummary: null,
     latestDebateResults: [],
+    auditRecords: loadAuditRecords(),
     drugOptions: [],
     drugOptionsLoaded: false,
     uiNavigationState: { ...defaultUiNavigationState },
@@ -63,11 +94,32 @@ export const useAppStateStore = defineStore('appState', {
     setDrugSafetyResponse(response) {
       this.latestDrugSafetyResponse = response
     },
+    setDrugSafetyRequest(request) {
+      this.latestDrugSafetyRequest = request || null
+    },
     setSymptomConsultResponse(response) {
       this.latestSymptomConsultResponse = response
       const data = response?.data || {}
       this.latestDebateSummary = data.medication_debate_summary || null
       this.latestDebateResults = Array.isArray(data.debate_results) ? data.debate_results : []
+    },
+    setSymptomConsultRequest(request) {
+      this.latestSymptomConsultRequest = request || null
+    },
+    addAuditRecord(record) {
+      const nextRecord = {
+        ...record,
+        created_at: record?.created_at || record?.timestamp || new Date().toISOString(),
+      }
+      const filtered = this.auditRecords.filter((item) => {
+        const requestId = nextRecord.request_id || nextRecord.response?.request_id
+        if (!requestId) return true
+        return (item.request_id || item.response?.request_id) !== requestId
+      })
+      this.auditRecords = [nextRecord, ...filtered]
+        .sort((a, b) => recordTime(b) - recordTime(a))
+        .slice(0, 50)
+      persistAuditRecords(this.auditRecords)
     },
     setDrugOptions(options) {
       this.drugOptions = Array.isArray(options) ? options : []

@@ -33,7 +33,7 @@ const routes = [
     path: '/debug',
     name: 'debug',
     component: SystemDebugView,
-    meta: { title: '系统调试与审计' },
+    meta: { title: '审计追溯中心' },
   },
 ]
 

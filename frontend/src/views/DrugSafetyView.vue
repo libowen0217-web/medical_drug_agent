@@ -1,25 +1,20 @@
 <template>
-  <div class="page-view">
+  <div class="page-view drug-safety-page">
     <PageHeader
       title="用药安全检查"
-      subtitle="围绕药物输入、多智能体协作、Neo4j / CSV 知识图谱查询、规则与剂量检查、证据引用、LLM 润色和安全过滤，完整展示药物安全检查主线。"
+      subtitle="面向社区药店柜台场景，辅助药师判断新增用药是否合适，并生成顾客提醒话术。"
+      disclaimer="本系统仅用于用药安全辅助参考，不替代医生诊疗、处方审核或药师最终判断。"
     />
 
-    <div class="page-grid">
-      <DrugSafetyForm
-        :drug-options="drugOptions"
-        :loading-options="loadingOptions"
-        :load-options-failed="loadOptionsFailed"
-        :submitting="submitting"
-        @submit="handleSubmit"
-      />
+    <DrugSafetyForm
+      :drug-options="drugOptions"
+      :loading-options="loadingOptions"
+      :load-options-failed="loadOptionsFailed"
+      :submitting="submitting"
+      @submit="handleSubmit"
+    />
 
-      <DrugSafetyResult
-        :response="response"
-        :show-json="store.settings.showJson"
-        :show-agent-chain="store.settings.showAgentChain"
-      />
-    </div>
+    <DrugSafetyResult :response="response" />
   </div>
 </template>
 
@@ -52,11 +47,7 @@ onMounted(async () => {
 async function refreshKnowledgeBackendStatus() {
   try {
     const payload = await getKnowledgeBackendStatus(store.settings.knowledgeBackend)
-    if (payload?.status === 'success') {
-      store.setKnowledgeBackendStatus(payload.data || null)
-    } else {
-      store.setKnowledgeBackendStatus(null)
-    }
+    store.setKnowledgeBackendStatus(payload?.status === 'success' ? payload.data || null : null)
   } catch (error) {
     store.setKnowledgeBackendStatus(null)
   }
@@ -85,6 +76,7 @@ async function loadDrugOptions() {
 
 async function handleSubmit(payload) {
   store.beginUiQuery()
+  store.setDrugSafetyRequest(payload)
   submitting.value = true
   try {
     const { data } = await checkDrugSafety(payload, {
@@ -93,6 +85,7 @@ async function handleSubmit(payload) {
       knowledgeBackend: store.settings.knowledgeBackend,
     })
     store.setDrugSafetyResponse(data)
+    store.addAuditRecord(buildDrugSafetyAuditRecord(payload, data))
     store.cacheTemporaryUiResult(data)
 
     if (data?.metadata) {
@@ -106,9 +99,9 @@ async function handleSubmit(payload) {
     }
 
     if (data.status === 'success') {
-      ElMessage.success(data.message || '检查完成')
+      ElMessage.success(data.message || '用药安全评估完成')
     } else {
-      ElMessage.error(`${data.message || '检查失败'}${data.error_code ? ` (${data.error_code})` : ''}`)
+      ElMessage.error(`${data.message || '评估失败'}${data.error_code ? ` (${data.error_code})` : ''}`)
     }
   } catch (error) {
     store.setUiQueryError('用药安全检查请求失败')
@@ -117,5 +110,45 @@ async function handleSubmit(payload) {
     submitting.value = false
     store.endUiQuery()
   }
+}
+
+function buildDrugSafetyAuditRecord(payload, response) {
+  const responseData = response?.data || {}
+  const riskFindings = Array.isArray(responseData.risk_findings) ? responseData.risk_findings : []
+  const riskLevel = responseData.overall_risk_level || 'unknown'
+  return {
+    request_id: response?.request_id || '',
+    analysis_type: 'drug_safety',
+    analysis_name: '用药安全检查',
+    created_at: response?.timestamp || new Date().toISOString(),
+    status: response?.status || 'success',
+    risk_level: riskLevel,
+    request: payload,
+    response,
+    input_summary: `当前用药：${joinList(payload.current_drugs)}；拟新增：${payload.new_drug || '暂无'}；年龄：${payload.age ?? '暂无'}；性别：${sexLabel(payload.sex)}；基础疾病：${joinList(payload.diseases)}；过敏史：${joinList(payload.allergies)}`,
+    output_summary: `综合风险：${riskLevelText(riskLevel)}；主要风险 ${riskFindings.length} 项。`,
+  }
+}
+
+function joinList(values) {
+  if (!Array.isArray(values) || values.length === 0) return '暂无'
+  return values.filter(Boolean).join('、') || '暂无'
+}
+
+function sexLabel(value) {
+  if (value === 'male' || value === '男') return '男'
+  if (value === 'female' || value === '女') return '女'
+  return '未知'
+}
+
+function riskLevelText(level) {
+  const labels = {
+    high: '高风险',
+    medium: '中风险',
+    moderate: '中风险',
+    low: '低风险',
+    unknown: '风险待确认',
+  }
+  return labels[String(level || '').toLowerCase()] || labels.unknown
 }
 </script>

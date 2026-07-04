@@ -19,9 +19,17 @@ defineProps({
 
 <style scoped>
 .empty-shell {
-  min-height: 280px;
+  min-height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.empty-shell :deep(.el-empty) {
+  padding: 12px 0;
+}
+
+.empty-shell :deep(.el-empty__image) {
+  display: none;
 }
 </style>
