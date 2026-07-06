@@ -747,4 +747,3 @@ python scripts/test_llm_client.py
 - 新增症状问诊规则时，维护 `medical_drug_agent/app/symptom/` 下的 CSV 规则文件。
 - 修改 API 返回结构时，需要同步检查前端 `frontend/src/api/`、`frontend/src/views/` 和相关测试。
 - 上传 Gitee 前请确认 `.env`、`frontend/node_modules/`、`frontend/dist/`、`__pycache__/`、`.pytest_cache/` 等不会被提交。
-.
