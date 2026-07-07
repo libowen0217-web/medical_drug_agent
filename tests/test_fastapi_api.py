@@ -100,8 +100,9 @@ def test_response_has_required_top_level_fields() -> None:
 def test_data_contains_core_fields() -> None:
     response = client.post("/api/v1/drug-safety/check", json=_payload())
     data = response.json()["data"]
-    for key in ["overall_risk_level", "pharmacist_report", "patient_report", "risk_findings", "dose_results"]:
+    for key in ["overall_risk_level", "pharmacist_report", "patient_report", "risk_findings", "dose_results", "rag_evidences"]:
         assert key in data
+    assert isinstance(data["rag_evidences"], list)
 
 
 def test_reference_dose_mode_returns_label_reference_metadata() -> None:

@@ -1,46 +1,68 @@
-# Environment variables and local secrets
+# 环境变量和密钥
 .env
-.env.local
-.env.*.local
+.env.*
 !.env.example
 
-# Python cache and test artifacts
+# 本地模型文件
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.gguf
+
+# RAG / Chroma 向量库索引
+data/vector_db/
+chroma/
+*.index
+*.sqlite3
+*.db
+
+# 原始大数据文件
+data/raw/
+*.csv.tmp
+*.zip
+*.tar
+*.gz
+
+# Python 缓存
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
+*.pyo
+*.pyd
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage
 htmlcov/
 
-# Virtual environments
+# 虚拟环境
 .venv/
 venv/
 env/
 
-# Raw / large data files
-data/raw/
-
-# Logs and runtime outputs
-*.log
+# 日志和审计运行文件
 logs/
-outputs/
 audit_logs/
+outputs/
+*.log
 
-# Frontend dependencies and build output
+# 前端依赖和构建产物
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
 
-# IDE and OS files
+# IDE 配置
 .idea/
-.claude/
 .vscode/
+.claude/
+
+# 系统文件
 .DS_Store
 Thumbs.db
 
-# Temporary files
+# 临时文件
 *.tmp
 *.bak
 *.swp

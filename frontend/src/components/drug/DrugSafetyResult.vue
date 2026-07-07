@@ -54,6 +54,38 @@
         本次评估参考了本地药物关系库、剂量规则和患者因素规则。
       </div>
 
+      <section class="business-card rag-card">
+        <h4>参考证据</h4>
+        <div v-if="ragEvidences.length" class="rag-list">
+          <div v-for="(item, index) in ragEvidences" :key="item.chunk_id || index" class="rag-item">
+            <div class="rag-head">
+              <strong>{{ item.source || '本地 RAG 文档' }}</strong>
+              <span class="rag-score">相关度：{{ formatScore(item.score) }}</span>
+            </div>
+            <div class="rag-meta">
+              <span>章节：{{ item.section || '暂无' }}</span>
+              <span>路径：{{ item.relative_path || '暂无' }}</span>
+            </div>
+            <el-alert
+              v-if="isRagTestEvidence(item)"
+              class="rag-test-alert"
+              type="warning"
+              :closable="false"
+              title="仅用于 RAG 功能测试，不代表真实医学建议"
+            />
+            <el-alert
+              v-if="item.is_placeholder"
+              class="rag-test-alert"
+              type="info"
+              :closable="false"
+              title="当前文档内容待补充，暂不作为正式医学证据"
+            />
+            <p>{{ item.content || '暂无内容' }}</p>
+          </div>
+        </div>
+        <div v-else class="compact-empty">暂无可展示的 RAG 参考证据，原有风险判断和报告生成不受影响。</div>
+      </section>
+
       <el-collapse class="advanced-collapse">
         <el-collapse-item title="展开查看详细依据" name="evidence">
           <div class="stack-sm">
@@ -128,6 +160,7 @@ const data = computed(() => props.response?.data || {})
 const multiAgent = computed(() => props.response?.metadata?.multi_agent || {})
 const riskFindings = computed(() => data.value.risk_findings || [])
 const evidenceItems = computed(() => formatEvidenceItems(riskFindings.value.flatMap((item) => item.evidence_items || [])))
+const ragEvidences = computed(() => (Array.isArray(data.value.rag_evidences) ? data.value.rag_evidences : []))
 const riskLevel = computed(() => String(data.value.overall_risk_level || 'unknown').toLowerCase())
 const riskLabel = computed(() => riskLevelToLabel(data.value.overall_risk_level))
 const riskClass = computed(() => `is-${riskLevel.value}`)
@@ -207,6 +240,17 @@ function splitSentences(text) {
     .split(/(?<=[。！？!?；;])/)
     .map((item) => item.trim().replace(/^["“”]+|["“”]+$/g, ''))
     .filter(Boolean)
+}
+
+function formatScore(value) {
+  const number = Number(value)
+  if (Number.isNaN(number)) return '暂无'
+  return number.toFixed(2)
+}
+
+function isRagTestEvidence(item) {
+  const text = `${item?.content || ''} ${item?.source || ''} ${item?.relative_path || ''}`
+  return text.includes('仅用于RAG功能测试') || text.includes('test_drug_')
 }
 
 function agentList(values) {
@@ -355,6 +399,56 @@ function agentList(values) {
   background: #f8fbff;
   color: var(--color-text-secondary);
   font-size: 13px;
+}
+
+.rag-card {
+  grid-column: 1 / -1;
+}
+
+.rag-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rag-item {
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #f8fbff;
+}
+
+.rag-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--color-primary-dark);
+  line-height: 1.6;
+}
+
+.rag-score {
+  flex: 0 0 auto;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.rag-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.rag-test-alert {
+  margin-top: 8px;
+}
+
+.rag-item p {
+  margin: 8px 0 0;
+  color: var(--color-text-main);
+  line-height: 1.75;
 }
 
 .detail-item {

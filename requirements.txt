@@ -7,3 +7,5 @@ streamlit
 pypinyin
 python-dotenv
 neo4j
+chromadb
+sentence-transformers
