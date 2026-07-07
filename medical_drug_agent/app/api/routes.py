@@ -5,8 +5,10 @@ from fastapi import APIRouter
 from medical_drug_agent.app.agents.supervisor_agent import SupervisorAgent
 from medical_drug_agent.app.api.models import DrugSafetyAPIRequest
 from medical_drug_agent.app.api_contract import build_error_response, build_success_response
+from medical_drug_agent.app.audit.logger import AuditLogger
 from medical_drug_agent.app.knowledge.knowledge_router import KnowledgeBackendRouter
 from medical_drug_agent.app.normalization.mapper import DrugNameMapper
+from medical_drug_agent.app.rag.retriever import RAGRetriever
 from medical_drug_agent.app.service import DrugSafetyService
 from medical_drug_agent.app.symptom.symptom_workflow import SymptomConsultWorkflow
 
@@ -21,6 +23,8 @@ router = APIRouter()
 service = DrugSafetyService()
 symptom_workflow = SymptomConsultWorkflow()
 drug_mapper = DrugNameMapper()
+audit_logger = AuditLogger()
+rag_retriever = RAGRetriever()
 
 PINYIN_OVERRIDES = {
     "硝苯地平": "xiaobendiping",
@@ -155,6 +159,87 @@ def get_kg_backend_status(knowledge_backend: str | None = None) -> dict:
         data=status,
         metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
         message="知识图谱后端状态获取成功",
+    )
+
+
+@router.get("/api/v1/audit/records/{identifier}")
+def get_audit_record(identifier: str) -> dict:
+    query = str(identifier or "").strip()
+    if not query:
+        return build_error_response(
+            error_code="INVALID_INPUT",
+            message="请求编号或审计编号不能为空",
+            metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
+        )
+
+    try:
+        record = audit_logger.find_by_request_id(query) or audit_logger.find_by_audit_id(query)
+    except Exception as exc:
+        return build_error_response(
+            error_code="WORKFLOW_ERROR",
+            message=f"审计记录读取失败：{exc}",
+            metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
+        )
+
+    if not record:
+        return build_error_response(
+            error_code="NOT_FOUND",
+            message="未找到对应的审计记录",
+            metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
+        )
+
+    return build_success_response(
+        data={"record": record},
+        metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
+        message="审计记录查询成功",
+    )
+
+
+@router.post("/api/rag/search")
+def search_rag(payload: dict) -> dict:
+    query = str(payload.get("query") or "").strip()
+    top_k = payload.get("top_k", 5)
+    try:
+        top_k = int(top_k)
+    except (TypeError, ValueError):
+        return build_error_response(
+            error_code="INVALID_INPUT",
+            message="top_k must be an integer",
+            metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
+        )
+
+    if not query:
+        return build_error_response(
+            error_code="INVALID_INPUT",
+            message="query cannot be empty",
+            metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
+        )
+
+    try:
+        evidences = rag_retriever.retrieve(query=query, top_k=top_k)
+    except ValueError as exc:
+        return build_error_response(
+            error_code="INVALID_INPUT",
+            message=str(exc),
+            metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
+        )
+    except FileNotFoundError as exc:
+        return build_error_response(
+            error_code="DATA_FILE_MISSING",
+            message=str(exc),
+            metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
+        )
+    except Exception as exc:
+        return build_error_response(
+            error_code="WORKFLOW_ERROR",
+            message=f"RAG search failed: {exc}",
+            metadata={"engine_version": DrugSafetyService.ENGINE_VERSION},
+        )
+
+    return build_success_response(
+        data={"rag_evidences": evidences},
+        metadata={"engine_version": DrugSafetyService.ENGINE_VERSION, "rag_backend": "chroma"},
+        message="RAG search completed",
     )
 
 

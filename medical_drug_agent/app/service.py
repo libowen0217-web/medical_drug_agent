@@ -4,6 +4,7 @@ from medical_drug_agent.app.agents.supervisor_agent import SupervisorAgent
 from medical_drug_agent.app.api_contract import build_error_response, build_success_response
 from medical_drug_agent.app.audit.logger import AuditLogger
 from medical_drug_agent.app.graph.graph import DrugSafetyLangGraph
+from medical_drug_agent.app.rag.context import retrieve_drug_safety_evidences
 from medical_drug_agent.app.schemas import DoseInput, DrugSafetyRequest, DrugSafetyResponse
 from medical_drug_agent.app.serialization import to_dict
 from medical_drug_agent.app.workflow import DrugSafetyWorkflow
@@ -77,6 +78,19 @@ class DrugSafetyService:
         dose_results = [to_dict(item) for item in report_result.risk_summary.dose_results]
         safety_warnings = list(report_result.safety_warnings)
         has_dose_input = request.dose is not None
+        rag_evidences = retrieve_drug_safety_evidences(
+            {
+                "current_drugs": request.current_drugs,
+                "new_drug": request.new_drug,
+                "age": request.age,
+                "diseases": request.diseases,
+                "patient_factors": request.patient_factors,
+            },
+            state={
+                "normalized_current_drugs": normalized_current,
+                "normalized_new_drug": normalized_new,
+            },
+        )
 
         response_dict = build_success_response(
             data={
@@ -88,6 +102,7 @@ class DrugSafetyService:
                 "pharmacist_report": report_result.pharmacist_report,
                 "patient_report": report_result.patient_report,
                 "safety_warnings": safety_warnings,
+                "rag_evidences": rag_evidences,
             },
             metadata={
                 "engine_version": self.ENGINE_VERSION,
@@ -105,6 +120,7 @@ class DrugSafetyService:
         if self.use_graph:
             try:
                 response = self.graph.run(payload)
+                self._attach_rag_evidences(payload, response)
             except FileNotFoundError as exc:
                 response = build_error_response(
                     error_code="DATA_FILE_MISSING",
@@ -159,6 +175,14 @@ class DrugSafetyService:
             audit_logger=self.audit_logger,
         )
         return supervisor.run(payload)
+
+    def _attach_rag_evidences(self, payload: dict, response_payload: dict) -> None:
+        if response_payload.get("status") != "success":
+            return
+        data = response_payload.get("data")
+        if not isinstance(data, dict) or "rag_evidences" in data:
+            return
+        data["rag_evidences"] = retrieve_drug_safety_evidences(payload)
 
     def _build_dose_inputs(self, request: DrugSafetyRequest) -> list[DoseInput] | None:
         if not request.dose:

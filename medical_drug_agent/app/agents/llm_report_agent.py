@@ -46,6 +46,7 @@ class LLMReportAgent(BaseAgent):
                 for finding in list(getattr(risk_summary, "findings", []) or [])
                 for item in list(getattr(finding, "evidence_items", []) or [])
             ],
+            "rag_evidences": list(state.get("rag_evidences", []) or []),
             "pharmacist_report": pharmacist_report,
             "patient_report": patient_report,
         }

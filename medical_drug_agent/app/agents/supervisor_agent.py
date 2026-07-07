@@ -8,6 +8,7 @@ from medical_drug_agent.app.agents.dose_check_agent import DoseCheckAgent
 from medical_drug_agent.app.agents.drug_normalization_agent import DrugNormalizationAgent
 from medical_drug_agent.app.agents.kg_query_agent import KGQueryAgent
 from medical_drug_agent.app.agents.llm_report_agent import LLMReportAgent
+from medical_drug_agent.app.agents.rag_evidence_agent import RAGEvidenceAgent
 from medical_drug_agent.app.agents.report_agent import ReportAgent
 from medical_drug_agent.app.agents.risk_aggregation_agent import RiskAggregationAgent
 from medical_drug_agent.app.agents.rule_check_agent import RuleCheckAgent
@@ -44,6 +45,7 @@ class SupervisorAgent:
             RuleCheckAgent(),
             DoseCheckAgent(),
             RiskAggregationAgent(),
+            RAGEvidenceAgent(),
             ReportAgent(),
         ]
         self.llm_report_agent = LLMReportAgent(enable_llm=enable_llm)
@@ -139,6 +141,7 @@ class SupervisorAgent:
         risk_summary = state["risk_summary"]
         risk_findings = [to_dict(item) for item in risk_summary.findings]
         dose_results = [to_dict(item) for item in list(state.get("dose_results", []) or [])]
+        rag_evidences = list(state.get("rag_evidences", []) or [])
         payload = state["input_payload"]
         kg_backend_metadata = dict(state.get("kg_backend_metadata", {}) or {})
         return build_success_response(
@@ -151,6 +154,7 @@ class SupervisorAgent:
                 "pharmacist_report": str(state.get("pharmacist_report", "") or ""),
                 "patient_report": str(state.get("patient_report", "") or ""),
                 "safety_warnings": list(state.get("safety_warnings", []) or []),
+                "rag_evidences": rag_evidences,
             },
             metadata={
                 "engine_version": self.ENGINE_VERSION,
